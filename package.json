@@ -1,5 +1,5 @@
 {
-  "name": "TodoList", 
+  "name": "TodoList",
   "version": "1.0.0",
   "description": "This is simple todo witch use Express.js",
   "main": "script.js",

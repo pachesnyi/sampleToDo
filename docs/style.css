@@ -6,3 +6,10 @@ body {
 h1 {
 
 }
+
+.warming {
+    display: none;
+}
+.warming.active {
+    display: block;
+}

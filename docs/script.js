@@ -1,11 +1,13 @@
 "use strict";
 
 (function(){
-    const list = ['Задача 1', 'Задача 2', 'Задача 3'];
+    let list = [];
     const listElement = document.querySelector('#list');
     const inputElement = document.querySelector('#new-task');
-    const buttonElemnt = document.querySelector('#addbutton');
+    const buttonElement = document.querySelector('#addbutton');
+    const warmingElement = document.querySelector('.warming');
     const myStorage = window.localStorage;
+
 
     function addItem () {
         let inputValue = inputElement.value;
@@ -14,8 +16,9 @@
         }
         list.push(inputElement.value);
         inputElement.value = '';
-        renderList();
         saveToLocalStorage();
+        getFromLocalStorage ();
+        renderList();
 
     }
 
@@ -25,15 +28,17 @@
         listItem.innerHTML = item;
         listElement.appendChild(listItem);
         let closeButton = document.createElement('button');
-        closeButton.innerHTML = "Close"
+        closeButton.innerHTML = "Close";
         listItem.appendChild((closeButton));
         closeButton.addEventListener('click', () => removeItem(index))
     }
 
+
+
     function renderList () {
-        while (listElement.firstChild) {
-            listElement.removeChild(listElement.firstChild);
-        }
+        // while (listElement.firstChild) {
+        //     listElement.removeChild(listElement.firstChild);
+        // }
         list.forEach((el, index) => addItemInDom(el, index));
     }
 
@@ -47,14 +52,17 @@
         myStorage.setItem(`houdini_items`, JSON.stringify(list));
     }
 
+    function getFromLocalStorage () {
+        let test = myStorage.getItem('houdini_items');
+        JSON.parse("[" + test + "]");
+    }
 
 
 
 
+    buttonElement.addEventListener('click', addItem);
 
-    buttonElemnt.addEventListener('click', addItem);
-
-
+    getFromLocalStorage();
     renderList();
 
 
