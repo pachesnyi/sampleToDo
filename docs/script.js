@@ -1,12 +1,13 @@
 "use strict";
 
 (function(){
-    let list = [];
     const listElement = document.querySelector('#list');
     const inputElement = document.querySelector('#new-task');
     const buttonElement = document.querySelector('#addbutton');
     const warmingElement = document.querySelector('.warming');
     const myStorage = window.localStorage;
+    let myStorageArray = JSON.parse(myStorage.getItem("houdini_items"));
+    let list = myStorageArray;
 
 
     function addItem () {
@@ -17,7 +18,6 @@
         list.push(inputElement.value);
         inputElement.value = '';
         saveToLocalStorage();
-        getFromLocalStorage ();
         renderList();
 
     }
@@ -36,10 +36,20 @@
 
 
     function renderList () {
-        // while (listElement.firstChild) {
-        //     listElement.removeChild(listElement.firstChild);
-        // }
-        list.forEach((el, index) => addItemInDom(el, index));
+        while (listElement.firstChild) {
+            listElement.removeChild(listElement.firstChild);
+        }
+        if(list == null || list.length==0) {
+            warmingElement.classList.add('active');
+            list = [];
+
+        }
+        else  {
+            warmingElement.classList.remove('active');
+            list.forEach((el, index) => addItemInDom(el, index));
+
+        }
+
     }
 
     function removeItem (index) {
@@ -52,17 +62,17 @@
         myStorage.setItem(`houdini_items`, JSON.stringify(list));
     }
 
-    function getFromLocalStorage () {
-        let test = myStorage.getItem('houdini_items');
-        JSON.parse("[" + test + "]");
-    }
-
+    // function storageIsEmpty () {
+    //     if(list!==null) {
+    //         return true
+    //     }
+    // }
 
 
 
     buttonElement.addEventListener('click', addItem);
 
-    getFromLocalStorage();
+
     renderList();
 
 
